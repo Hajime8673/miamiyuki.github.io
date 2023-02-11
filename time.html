@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UTC Clock</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="cute.png" type="image/gif" />
+  <style>
+    body {
+      background-color: #1f2937;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+  <div id="time" class="text-4xl"></div>
+  <script>
+    const getUTCOffset = () => {
+      let offset = 0;
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      if (urlParams.has("UTC")) {
+        offset = parseInt(urlParams.get("UTC"));
+      }
+      return offset;
+    };
+
+    const displayTime = (offset) => {
+      const date = new Date();
+      const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+      const newDate = new Date(utc + (3600000 * offset));
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById("time").innerHTML = `${days[newDate.getUTCDay()]}, ${months[newDate.getUTCMonth()]} ${newDate.getUTCDate()}, ${newDate.getUTCFullYear()}<br>${newDate.toLocaleTimeString()}`+` UTC${offset >= 0 ? "+" : ""}${offset}`;
+    };
+
+    displayTime(getUTCOffset());
+    setInterval(() => displayTime(getUTCOffset()), 1000);
+  </script>
+</body>
+</html>
