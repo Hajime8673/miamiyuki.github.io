@@ -33,9 +33,13 @@
   </div>
   <script>
     const getUTCOffset = () => {
-      let offset = 0;
+      let offset = -new Date().getTimezoneOffset() / 60;
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
+      if (urlParams.has("utc")) {
+        offset = parseInt(urlParams.get("utc"));
+      }
+      return offset;
       if (urlParams.has("UTC")) {
         offset = parseInt(urlParams.get("UTC"));
       }
