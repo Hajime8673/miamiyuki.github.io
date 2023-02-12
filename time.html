@@ -9,10 +9,22 @@
       background-color: #1f2937;
       color: #fff;
     }
+    .time-date-container {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 0;
+    }
+    #time, #date {
+      display: block;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body class="flex items-center justify-center h-screen">
-  <div id="time" class="text-4xl"></div>
+  <div class="time-date-container">
+    <div id="time" class="text-4xl font-semibold"></div>
+    <div id="date" class="text-4xl font-bold"></div>
+  </div>
   <script>
     const getUTCOffset = () => {
       let offset = 0;
@@ -30,7 +42,8 @@
       const newDate = new Date(utc + (3600000 * offset));
       const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      document.getElementById("time").innerHTML = `${newDate.toLocaleTimeString()}`+` UTC${offset >= 0 ? "+" : ""}${offset} <br>${days[newDate.getUTCDay()]}, ${months[newDate.getUTCMonth()]} ${newDate.getUTCDate()}, ${newDate.getUTCFullYear()}`;
+      document.getElementById("time").innerHTML = `${newDate.toLocaleTimeString()} UTC${offset >= 0 ? "+" : ""}${offset}`
+      document.getElementById("date").innerHTML = `${days[newDate.getUTCDay()]}, ${months[newDate.getUTCMonth()]} ${newDate.getUTCDate()}, ${newDate.getUTCFullYear()}`;
     };
 
     displayTime(getUTCOffset());
